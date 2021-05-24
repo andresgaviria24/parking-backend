@@ -7,4 +7,5 @@ import (
 
 type ParkingService interface {
 	FindParking() (dto.Response, []entity.Parking)
+	CreateParking(parking entity.Parking) dto.Response
 }
