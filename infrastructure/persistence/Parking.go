@@ -40,3 +40,12 @@ func (r *ParkingRepositoryImpl) CreateParking(parking entity.Parking) error {
 	}
 	return nil
 }
+
+func (r *ParkingRepositoryImpl) DeleteParking(id int) error {
+	err := r.db.Raw("Delete FROM parking WHERE id = ?", id).Error
+
+	if err != nil {
+		return err
+	}
+	return nil
+}

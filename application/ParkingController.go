@@ -2,6 +2,7 @@ package application
 
 import (
 	"net/http"
+	"ws_parking/domain/entity"
 	"ws_parking/domain/service"
 
 	"github.com/gin-gonic/gin"
@@ -16,6 +17,7 @@ func InitParkingController(router *gin.Engine) {
 		ParkingService: service.InitParkingServiceImpl(),
 	}
 	router.GET("/parking", parkingService.GetParking)
+	router.POST("/parking", parkingService.CreateParking)
 
 }
 
@@ -29,4 +31,23 @@ func (a *ParkingController) GetParking(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, section)
+}
+
+func (a *ParkingController) CreateParking(c *gin.Context) {
+	var parking entity.Parking
+	if err := c.ShouldBindJSON(&parking); err != nil {
+		c.JSON(http.StatusUnprocessableEntity, gin.H{
+			"invalid_json": "invalid json",
+		})
+		return
+	}
+
+	response := a.ParkingService.CreateParking(parking)
+
+	if response.Status != http.StatusOK {
+		c.JSON(response.Status, response)
+		return
+	}
+
+	c.JSON(http.StatusOK, response)
 }

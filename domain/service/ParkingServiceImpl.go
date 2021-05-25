@@ -35,3 +35,18 @@ func (a ParkingServiceImpl) FindParking() (dto.Response, []entity.Parking) {
 	response.Status = http.StatusOK
 	return response, parking
 }
+
+func (a ParkingServiceImpl) CreateParking(parking entity.Parking) dto.Response {
+	var response = dto.Response{}
+	err := a.parkingRepository.CreateParking(parking)
+	if err != nil {
+		//	response.Message = utils.Lenguage("ES", "MISSING_USER")
+		//	response.Status = http.StatusNotFound
+		return response
+	}
+
+	response.Status = http.StatusOK
+	return response
+}
+
+//func (a ParkingServiceImpl) DeleteParking()
