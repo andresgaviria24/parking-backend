@@ -34,8 +34,7 @@ func (a *ParkingController) GetParking(c *gin.Context) {
 }
 
 func (a *ParkingController) CreateParking(c *gin.Context) {
-
-	parking := entity.Parking{}
+	var parking entity.Parking
 	if err := c.ShouldBindJSON(&parking); err != nil {
 		c.JSON(http.StatusUnprocessableEntity, gin.H{
 			"invalid_json": "invalid json",
